@@ -1,4 +1,3 @@
-# FINAL-PROJECT-PROGC
 /*
  * ================================================================
  *  IngatKita — Stimulasi Kognitif Lansia
@@ -168,7 +167,7 @@ int pilih_pasien(void) {
 }
 
 /* ================================================================
- *  SESI PASIEN  (menggunakan pointer Pasien *p)
+ *  SESI PASIEN 
  * ================================================================ */
 void mode_pasien(Pasien *p) {
     printf("\n==============================\n");
@@ -181,14 +180,14 @@ void mode_pasien(Pasien *p) {
 }
 
 void jalankan_sesi(Pasien *p) {
-    /* Kumpulkan soal sesuai tipe pasien ke dalam array pool */
+    
     int pool[MAX_SOAL], n = 0;
     for (int i = 0; i < jml_soal; i++)
         if (bank_soal[i].tipe == p->tipe) pool[n++] = i;
 
     if (n == 0) { printf("  Tidak ada soal untuk tipe ini.\n"); return; }
 
-    /* Acak urutan soal (Fisher-Yates) */
+    
     for (int i = n-1; i > 0; i--) {
         int j = rand() % (i+1);
         int tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
@@ -209,7 +208,7 @@ void jalankan_sesi(Pasien *p) {
         char buf[80];
         int benar = 0;
 
-        /* Tampilkan soal */
+        
         printf("  Soal %d/%d\n", i+1, total);
         garis(35);
         printf("  %s\n\n", q->pertanyaan);
@@ -271,7 +270,7 @@ void cetak_laporan(Pasien *p, Sesi *s) {
     for (int i = 0; i < 10; i++) printf("%c", i < pct/10 ? '#' : '-');
     printf("]\n");
 
-    /* Perbandingan sesi sebelumnya */
+    /* Perbandingan sesi  */
     if (p->jumlah_sesi > 1) {
         Sesi *prev = &p->riwayat[p->jumlah_sesi - 2];
         int prev_pct = (prev->total > 0) ? (prev->skor * 100 / prev->total) : 0;
@@ -284,7 +283,7 @@ void cetak_laporan(Pasien *p, Sesi *s) {
     if (strlen(s->catatan) > 0)
         printf("  Catatan : %s\n", s->catatan);
 
-    /* Afirmasi */
+    /* Afirmasi dan motivasi */
     int p_pct = (s->total > 0) ? (s->skor * 100 / s->total) : 0;
     if      (p_pct >= 80) printf("\n  Luar biasa, %s! Kamu hebat hari ini!\n", p->nama);
     else if (p_pct >= 50) printf("\n  Bagus, %s! Terus latih ingatanmu!\n", p->nama);
@@ -318,7 +317,7 @@ void cetak_ringkasan(Pasien *p) {
     printf("  Terlemah    : Sesi %d (%d%%) — %s\n",
            worst_i+1, worst_pct, p->riwayat[worst_i].tanggal);
 
-    /* Tren: separuh awal vs separuh akhir */
+    /* Perkembangan */
     int separuh = p->jumlah_sesi / 2;
     if (separuh >= 1) {
         int sum_awal = 0, sum_akhir = 0;
